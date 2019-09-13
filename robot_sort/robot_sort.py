@@ -111,14 +111,19 @@ class SortingRobot:
         Sort the robot's list.
         """
 
-        #set_light_on to track is_swapped for bubble sort
+        #turn light on initially to run while loop
         self.set_light_on()
 
-
+        #while light is on
         while self.light_is_on():
+
+            #set light off in outer while loop
             self.set_light_off()
+
+            #if the item in hand is None and at end of list, move back to beginning to enable another pass
             if self.compare_item() == None and self.can_move_right() == False:
                 self.move_to_beginning()
+
 
             while self.can_move_right():
 
@@ -126,8 +131,10 @@ class SortingRobot:
 
                 self.move_right()
 
+                #if a number being looked at is greater than or equal to number in hand, move left to pick previous num back up
                 if self.compare_item() == -1 or self.compare_item() == 0:
                     self.move_left()
+                #if number being looked at is less than number in hand, swap items and move left to drop lesser number behind greater number
                 elif self.compare_item() == 1:
                     self.set_light_on()
                     self.swap_item()
@@ -141,6 +148,9 @@ class SortingRobot:
 
 
     def move_to_beginning(self):
+        """
+        Move robot to beginning of list
+        """
         while self.can_move_left() == True:
             self.move_left()
 
