@@ -41,4 +41,4 @@ O(n): Once again, the recursion depends on n counts of bunnies, so will be a lin
 | - 2
 | - 1
 
-This is essentially binary search
+This is essentially binary search - big O is O(n log n) due to results being halved on each iteration
