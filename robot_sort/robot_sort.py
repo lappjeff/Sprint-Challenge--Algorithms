@@ -1,3 +1,14 @@
+# You may use any pre-defined robot methods.
+# You may NOT modify any pre-defined robot methods.
+# You may use logical operators. (if, and, or, not, etc.)
+# You may use comparison operators. (>, >=, <, <=, ==, is, etc.)
+# You may use iterators. (while, for, break, continue)
+# You may NOT store any variables. (=)
+# You may NOT access any instance variables directly. (self._anything)
+# You may NOT use any Python libraries or class methods. (sorted(), etc.)
+# You may define robot helper methods, as long as they follow all the rules.
+
+#example list = [4,2,6,3]
 class SortingRobot:
     def __init__(self, l):
         """
@@ -14,6 +25,7 @@ class SortingRobot:
         Returns True if the robot can move right or False if it's
         at the end of the list.
         """
+
         return self._position < len(self._list) - 1
 
     def can_move_left(self):
@@ -59,6 +71,8 @@ class SortingRobot:
         # Swap the held item with the list item at the robot's position
         self._item, self._list[self._position] = self._list[self._position], self._item
 
+
+
     def compare_item(self):
         """
         Compare the held item with the item in front of the robot:
@@ -96,16 +110,56 @@ class SortingRobot:
         """
         Sort the robot's list.
         """
-        # Fill this out
-        pass
 
+        #turn light on initially to run while loop
+        self.set_light_on()
+
+        #while light is on
+        while self.light_is_on():
+
+            #set light off in outer while loop
+            self.set_light_off()
+
+            #if the item in hand is None and at end of list, move back to beginning to enable another pass
+            if self.compare_item() == None and self.can_move_right() == False:
+                self.move_to_beginning()
+
+
+            while self.can_move_right():
+
+                self.swap_item()
+
+                self.move_right()
+
+                #if a number being looked at is greater than or equal to number in hand, move left to pick previous num back up
+                if self.compare_item() == -1 or self.compare_item() == 0:
+                    self.move_left()
+                #if number being looked at is less than number in hand, swap items and move left to drop lesser number behind greater number
+                elif self.compare_item() == 1:
+                    self.set_light_on()
+                    self.swap_item()
+
+                    self.move_left()
+
+                self.swap_item()
+
+                self.move_right()
+
+
+
+    def move_to_beginning(self):
+        """
+        Move robot to beginning of list
+        """
+        while self.can_move_left() == True:
+            self.move_left()
 
 if __name__ == "__main__":
     # Test our your implementation from the command line
     # with `python robot_sort.py`
 
-    l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
-
+    l = [1, -38, -95, 4, 23, -73, -65, -36, 85, 2, 58, -26, -55, 96, 55, -76, 64, 45, 69, 36, 69, 47, 29, -47, 13, 89, -57, -88, -87, 54, 60, 56, -98, -78, 59, 93, -41, -74, 73, -35, -23, -79, -35, 46, -18, -18, 37, -64, 14, -57, -2, 15, -85, 45, -73, -2, 79, -87, -100, 21, -51, 22, 26, -59, 81, 59, -24, 24, -81, 43, 61, 52, 38, -88, -95, 87, -57, -37, -65, -47, -3, 21, -77, 98, 25, 1, -36, 39, 78, 47, -35, -40, -69, -81, 11, -47, 21, 25, -53, -31, 1, -38, -95, 4, 23, -73, -65, -36, 85, 2, 58, -26, -55, 96, 55, -76, 64, 45, 69, 36, 69, 47, 29, -47, 13, 89, -57, -88, -87, 54, 60, 56, -98, -78, 59, 93, -41, -74, 73, -35, -23, -79, -35, 46, -18, -18, 37, -64, 14, -57, -2, 15, -85, 45, -73, -2, 79, -87, -100, 21, -51, 22, 26, -59, 81, 59, -24, 24, -81, 43, 61, 52, 38, -88, -95, 87, -57, -37, -65, -47, -3, 21, -77, 98, 25, 1, -36, 39, 78, 47, -35, -40, -69, -81, 11, -47, 21, 25, -53, -31]
+    # l = [7, 4, 5, 2]
     robot = SortingRobot(l)
 
     robot.sort()
